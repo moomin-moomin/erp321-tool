@@ -47,11 +47,11 @@
 1. #### 安装Microsoft Edge浏览器
     请先确保电脑安装了Microsoft Edge浏览器，如果没有安装可以在[浏览器官方网站](https://www.microsoft.com/zh-cn/edge/download)下载安装。
 
-2. #### 准备Python环境
-   请根据系统查看相应介绍：
+2. #### 安装Python
+   请根据系统查看相应安装介绍：
 
     <details>
-      <summary>在macOS下准备Python环境</summary>
+      <summary>在macOS安装Python</summary>
 
       项目运行需要在系统中安装以下2个brew包。
 
@@ -62,9 +62,9 @@
     </details>
 
     <details>
-      <summary>在Windows下准备Python环境</summary>
+      <summary>在Windows安装Python</summary>
 
-      如果没有在Windows中安装Python环境，推荐考虑通过[Scoop](https://scoop.sh)进行安装。
+      如果之前没有在Windows中安装过Python，推荐考虑通过[Scoop](https://scoop.sh)进行安装。
       ```pwsh
       # 安装Scoop，需要在PowerShell中运行，cmd.exe中不能运行
       Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
@@ -89,7 +89,7 @@
 
 3. #### 安装Poetry
     项目使用[Poetry](https://python-poetry.org)管理依赖，请参阅[它的安装文档](https://python-poetry.org/docs/#installation)安装。
-    > ⚠️ 在macOS系统下，可以直接通过`brew install poetry`安装；Windows系统下开发并且使用了前面介绍的Scoop，可以直接通过`scoop install poetry`安装。
+    > ⚠️ 在macOS系统下，可以直接通过`brew install poetry`安装；在Windows系统下，如果使用了前面介绍的Scoop，可以直接通过`scoop install poetry`安装。
 
 4. #### 安装项目依赖
     使用poetry安装项目依赖项，开发环境准备就绪。
