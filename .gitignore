@@ -1,0 +1,10 @@
+__pychache__
+*.exe
+*.pyc
+*.spec
+*.xls
+*.xlsx
+build
+dist
+
+!examples/**/*

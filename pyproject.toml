@@ -1,0 +1,59 @@
+[tool.poetry]
+name = "erp321-tool"
+version = "1.0.0"
+description = "聚水潭导单回单工具是一个提高“导单”和“回单”操作效率的软件"
+authors = ["hannah-lxt <385331509@qq.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+openpyxl = "^3.1.2"
+playwright = "^1.38.0"
+python = ">=3.11,<3.13"
+xlrd = "^2.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pillow = "^10.0.0"
+poethepoet = "^0.22.1"
+ptpython = "^3.0.23"
+pyinstaller = "^5.13.2"
+
+[tool.poe.tasks]
+build-macos = "pyinstaller erp321_tool/gui.py -wy -n 聚水潭导单回单工具 -i erp321_tool/images/mac-app-icon.png --distpath=dist/erp321-tool/聚水潭导单回单工具"
+build-windows = "pyinstaller erp321_tool/gui.py -Fwy -n 聚水潭导单回单工具 -i erp321_tool/images/windows-app-icon.png --distpath=dist/erp321-tool/聚水潭导单回单工具"
+# 将工具设置示例文件复制到构建产物目录
+dist-examples.script = "shutil:copytree('examples/工具设置', 'dist/erp321-tool/聚水潭导单回单工具/工具设置', dirs_exist_ok=True)"
+# 调试回单功能
+export = "python -m erp321_tool.export_from_erp321"
+# 调试图形界面
+gui = "python -m erp321_tool.gui"
+# 调试导单功能
+import = "python -m erp321_tool.import_to_erp321"
+# 删除macOS下的多余构建产物
+post-build-macos = "rm -rf dist/erp321-tool/聚水潭导单回单工具/聚水潭导单回单工具"
+# 构建最终交付的可执行文件和压缩包
+release = ["build", "dist-examples", "make-archive"]
+
+[tool.poe.tasks.build]
+control.expr = "sys.platform"
+  [[tool.poe.tasks.build.switch]]
+    case = "win32"
+    sequence = ["build-windows"]
+  [[tool.poe.tasks.build.switch]]
+    case = "darwin"
+    sequence = ["build-macos", "post-build-macos"]
+
+[tool.poe.tasks.make-archive]
+control.expr = "sys.platform"
+  [[tool.poe.tasks.make-archive.switch]]
+    case = "win32"
+    cwd = "dist"
+    script = "shutil:make_archive('erp321-tool-windows', 'zip', 'erp321-tool')"
+  [[tool.poe.tasks.make-archive.switch]]
+    case = "darwin"
+    cwd = "dist"
+    script = "shutil:make_archive('erp321-tool-macos', 'zip', 'erp321-tool')"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
