@@ -1,5 +1,6 @@
 import json
 import re
+from datetime import datetime
 from os import path
 
 from erp321_tool.browser import close_browser, launch_browser
@@ -73,9 +74,9 @@ def transform_row(row: dict, file_path: str):
     name = get_normalized_name(file_path)
     for key in column_name_map[name]:
         if key == "业务员":
-            new_row[key] = str(column_name_map[name][key])
+            new_row[key] = str(column_name_map.get(name, {}).get(key))
         elif key in new_row:
-            column_name = column_name_map[name][key]
+            column_name = column_name_map.get(name, {}).get(key)
 
             # 如果列名称是list，说明输出的列信息需要由输入的多列聚合组成
             # 例如有的“地址”列，需要由输入的“省”“市”“区”“地址”这样的多列拼接成
@@ -88,6 +89,8 @@ def transform_row(row: dict, file_path: str):
     new_row["卖家备注"] = (
         new_row["卖家备注"] or f"{name}手工单" if not new_row["卖家备注"] else new_row["卖家备注"]
     )
+
+    new_row["付款时间"] = new_row["付款时间"] or datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # 手机号仅保留数字和“-”，否则聚水潭导单会失败
     new_row["手机"] = re.sub("[^0-9-]", "", str(new_row["手机"]))
