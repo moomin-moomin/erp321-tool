@@ -23,7 +23,7 @@
 ## 安装
 访问项目的[Releases](https://github.com/hannah-lxt/erp321-tool/releases)页面下载对应系统的压缩并解压缩即可。
 
-聚水潭导单回单工具是[绿色软件](https://zh.wikipedia.org/zh-cn/%E7%B6%A0%E8%89%B2%E8%BB%9F%E9%AB%94)，不需要专门的安装步骤，把软件储存在任何文件夹下，然后在文件夹中点击“`聚水潭导单回单工具.exe`”（Windows系统）或“`聚水潭导单回单工具.app`”（macOS系统）就能运行。
+聚水潭导单回单工具是[绿色软件](https://zh.wikipedia.org/zh-cn/%E7%B6%A0%E8%89%B2%E8%BB%9F%E9%AB%94)，不需要专门的安装步骤，把软件储存在任何文件夹下，然后在文件夹中点击“`聚水潭导单回单工具.exe`”（Windows系统）或“`聚水潭导单回单工具/聚水潭导单回单工具`”（macOS系统）就能运行。
 
 如果使用的是macOS系统，需要确保把系统“隐私与安全性”设置中的“允许从以下位置下载的应用程序”一项设为“任何来源”，可以参考[苹果电脑安装软件后，提示mac文件已损坏,无法打开怎么办？](https://cloud.tencent.com/developer/article/2216717)，完成文章中第一步“1、打开任何来源”的设置即可。
 
@@ -33,7 +33,7 @@
    <p><img alt="使用方法-1" src="docs/images/instruction-1.png" width="360" height="84"></p>
 3. 将渠道发来的订单文件按照特定格式（“`【推单】渠道名称.xlsx`”）命名，并放入软件所在文件夹中。
    <p><img alt="使用方法-2" src="docs/images/instruction-2.png" width="360" height="111"></p>
-4. 打开软件“`聚水潭导单回单工具.exe`”（Windows系统）或“`聚水潭导单回单工具.app`”（macOS系统）。
+4. 打开软件“`聚水潭导单回单工具.exe`”（Windows系统）或“`聚水潭导单回单工具/聚水潭导单回单工具`”（macOS系统）。
    <p><img alt="使用方法-3" src="docs/images/instruction-3.png" width="360" height="212"></p>
 
    > ⚠️ 软件启动有点慢，根据电脑配置和系统不同，可能需要稍等不同的时间。
@@ -129,7 +129,7 @@
     poetry run poe release
     ```
 
-    构建产物在`dist`文件夹下。`dist/erp321-tool-windows.zip`、`dist/erp321-tool-macos.zip`文件是最终交付给用户使用的产物，包含可执行文件“`聚水潭导单回单工具.exe`”（Windows系统）或“`聚水潭导单回单工具.app`”（macOS系统），以及工具设置示例文件。
+    构建产物在`dist`文件夹下。`dist/erp321-tool-windows.zip`、`dist/erp321-tool-macos.zip`文件是最终交付给用户使用的产物，包含可执行文件“`聚水潭导单回单工具.exe`”（Windows系统）或“`聚水潭导单回单工具/聚水潭导单回单工具`”（macOS系统），以及工具设置示例文件。
 
     `poe release`是一系列构建任务的组合，细节可以查阅`pyproject.toml`中的具体内容。
 

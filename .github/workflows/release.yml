@@ -9,7 +9,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [windows-latest, macos-13]
+        os: [windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -17,11 +17,18 @@ jobs:
         with:
           path: build
           key: ${{ runner.os }}-build
+
       - run: pipx install poetry
+        if: runner.os == 'Windows'
       - uses: actions/setup-python@v4
+        if: runner.os == 'Windows'
         with:
           python-version: '3.11'
-          cache: 'poetry'
+
+      - run: brew install tcl-tk python python-tk poetry
+        if: runner.os == 'macOS'
+        continue-on-error: true
+
       - run: poetry install
       - run: poetry run poe -q release
       - uses: actions/upload-artifact@v3

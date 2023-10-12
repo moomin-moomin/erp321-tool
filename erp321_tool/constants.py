@@ -10,8 +10,12 @@ from erp321_tool.utils import (
 
 if platform == "darwin":
     mac_app_inner_path = "聚水潭导单回单工具.app/Contents/MacOS/聚水潭导单回单工具"
+    mac_bin_inner_path = "聚水潭导单回单工具/聚水潭导单回单工具"
     if executable.endswith(mac_app_inner_path):
         app_path = executable.removesuffix(mac_app_inner_path)
+        chdir(app_path)
+    elif executable.endswith(mac_bin_inner_path):
+        app_path = executable.removesuffix(mac_bin_inner_path)
         chdir(app_path)
 
 option_workbook = load_xlsx_or_xls_workbook("工具设置/字段匹配.xlsx")

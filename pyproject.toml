@@ -16,7 +16,7 @@ xlrd = "^2.0.1"
 pillow = "^10.0.0"
 poethepoet = "^0.22.1"
 ptpython = "^3.0.23"
-pyinstaller = "^5.13.2"
+pyinstaller = "^6.0.0"
 
 [tool.poe.tasks]
 build-macos = "pyinstaller erp321_tool/gui.py -wy -n 聚水潭导单回单工具 -i erp321_tool/images/mac-app-icon.png --distpath=dist/erp321-tool/聚水潭导单回单工具"
@@ -30,7 +30,7 @@ gui = "python -m erp321_tool.gui"
 # 调试导单功能
 import = "python -m erp321_tool.import_to_erp321"
 # 删除macOS下的多余构建产物
-post-build-macos = "rm -rf dist/erp321-tool/聚水潭导单回单工具/聚水潭导单回单工具"
+post-build-macos = "rm -rf dist/erp321-tool/聚水潭导单回单工具/聚水潭导单回单工具.app"
 # 构建最终交付的可执行文件和压缩包
 release = ["build", "dist-examples", "make-archive"]
 
