@@ -16,7 +16,22 @@ from erp321_tool.utils import (
 )
 
 
-async def get_order_logistics_info_list(order_ids: list[str]):
+def get_order_logistics_info(order):
+    # 被拆单的数据行，没有实际物流数据
+    if order["src_status"] == "Split":
+        return None
+
+    express_company = order["logistics_company"]
+    express_number = order["l_id"]
+
+    return {
+        "order_id": order["so_id"],
+        "express_company": express_company,
+        "express_number": express_number,
+    }
+
+
+async def get_orders_logistics_info(order_ids: list[str]):
     """
     从聚水潭系统中导出订单的物流信息
     通过playwright自动打开浏览器，自动在网页输入要查询的订单号，然后解析拦截到的浏览器请求接口内容，返回订单相关的物流信息
@@ -46,18 +61,36 @@ async def get_order_logistics_info_list(order_ids: list[str]):
     response_json = json.loads(response_json_text)
     return_value = json.loads(response_json["ReturnValue"])
 
-    order_logistics_info_list = [
-        {
-            "order_id": order["so_id"],
-            "express_company": order["logistics_company"],
-            "express_number": order["l_id"],
-        }
-        for order in return_value["datas"]
-    ]
+    orders_logistics_info: dict[str, dict[str, str]] = {}
+    for order in return_value["datas"]:
+        order_logistics_info = get_order_logistics_info(order)
+        if order_logistics_info:
+            order_id = order_logistics_info["order_id"]
+            original_orders_logistics_info = orders_logistics_info.get(order_id)
+
+            # 一个订单号查询到多个物流信息
+            if original_orders_logistics_info:
+                original_express_company = original_orders_logistics_info[
+                    "express_company"
+                ]
+                original_express_number = original_orders_logistics_info[
+                    "express_number"
+                ]
+                express_company = order_logistics_info["express_company"]
+                express_number = order_logistics_info["express_number"]
+                if express_company and express_number:
+                    express_company = f"{original_express_company};{express_company}"
+                    express_number = f"{original_express_number};{express_number}"
+                    original_orders_logistics_info["express_company"] = express_company
+                    original_orders_logistics_info["express_number"] = express_number
+
+            # 首次记录这个订单号对应的物流信息
+            else:
+                orders_logistics_info[order_id] = order_logistics_info
 
     await close_browser()
 
-    return order_logistics_info_list
+    return orders_logistics_info
 
 
 def update_row_logistics_info(row, order_logistics_info, file_path):
@@ -96,17 +129,11 @@ async def update_rows_logistics_info(rows, file_path):
     order_ids = [row[order_id_name] for row in rows]
 
     # 根据订单号，批量查询物流信息
-    order_logistics_info_list = await get_order_logistics_info_list(order_ids)
-
-    order_logistics_info_map = {}
-    for order_logistics_info in order_logistics_info_list:
-        order_logistics_info_map[
-            order_logistics_info["order_id"]
-        ] = order_logistics_info
+    orders_logistics_info = await get_orders_logistics_info(order_ids)
 
     for row in rows:
         order_id = row[order_id_name]
-        order_logistics_info = order_logistics_info_map.get(order_id)
+        order_logistics_info = orders_logistics_info.get(order_id)
         if order_logistics_info:
             update_row_logistics_info(row, order_logistics_info, file_path)
 
