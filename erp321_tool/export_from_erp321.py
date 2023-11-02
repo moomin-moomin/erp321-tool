@@ -86,7 +86,10 @@ async def get_orders_logistics_info(order_ids: list[str]):
 
             # 首次记录这个订单号对应的物流信息
             else:
-                orders_logistics_info[order_id] = order_logistics_info
+                express_company = order_logistics_info["express_company"]
+                express_number = order_logistics_info["express_number"]
+                if express_company and express_number:
+                    orders_logistics_info[order_id] = order_logistics_info
 
     await close_browser()
 

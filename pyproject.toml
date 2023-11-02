@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "erp321-tool"
-version = "1.0.0"
+version = "1.0.5"
 description = "聚水潭导单回单工具是一个提高“导单”和“回单”操作效率的软件"
 authors = ["hannah-lxt <385331509@qq.com>"]
 readme = "README.md"

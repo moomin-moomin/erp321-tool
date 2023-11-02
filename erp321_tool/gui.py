@@ -37,7 +37,7 @@ def create_async_command_button(
 def close_browser():
     match platform:
         case "win32":
-            system("taskkill /im msedge.exe")
+            system("taskkill /im msedge.exe /F")
         case "darwin":
             system("pkill -x 'Microsoft Edge'")
 
