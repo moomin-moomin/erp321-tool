@@ -43,7 +43,7 @@ async def get_orders_logistics_info(order_ids: list[str]):
     page_size_value = await page_size.input_value()
     if not page_size_value == "500":
         await page_size.select_option("500")
-    await page.wait_for_load_state("networkidle")
+        await page.wait_for_load_state("networkidle")
 
     # 在页面左侧的“线上订单号”输入框中输入订单号，然后按回车键查询
     order_id_input = page.frame_locator("#s_filter_frame").locator("#so_id")
